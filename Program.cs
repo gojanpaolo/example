@@ -5,10 +5,10 @@ var logger = app.Services.GetRequiredService<ILogger<Program>>();
 
 logger.LogWarning("jantest log Application Starting Up");
 
-app.MapGet("/", () =>
+app.MapGet("/", (string x) =>
 {
-    logger.LogWarning("Hello world jantest log");
-    return "Hello World!";
+    logger.LogWarning($"Hello world jantest log {x}");
+    return $"Hello World: {x}";
 });
 
 app.Run();
