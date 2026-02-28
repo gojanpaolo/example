@@ -8,9 +8,10 @@ logger.LogWarning("jantest log Application Starting Up");
 app.MapGet("/", (string x) =>
 {
     logger.LogWarning($"Hello world jantest log {x}");
-    return $"Hello World2: {x}";
+    return $"Hello World3: {x}";
 });
 
 app.Run();
+
 
 
