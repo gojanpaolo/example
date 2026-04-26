@@ -2,21 +2,46 @@ trigger:
 - main
 pool:
   vmImage: ubuntu-latest
+variables:
+  buildConfiguration: 'Release'
 steps:
-  - task: UseDotNet@2
-    displayName: 'Install .NET 10'
-    inputs:
-      version: 10.x
-      performMultiLevelLookup: true
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'build'
-      projects: '$(System.DefaultWorkingDirectory)/jantest.csproj'
-      arguments: '--configuration $(BuildConfig) --output $(Build.ArtifactStagingDirectory)'
-  - task: AzureWebApp@1
-    displayName: 'Deploy to AzureWebApp'
-    inputs:
-      azureSubscription: 'jantest'
-      appType: 'webApp'
-      appName: 'example-jantest2'
-      package: '$(Build.ArtifactStagingDirectory)'
+- task: UseDotNet@2
+  displayName: 'Install .NET 10'
+  inputs:
+    version: 10.x
+    performMultiLevelLookup: true
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    arguments: '--configuration $(buildConfiguration)'
+    zipAfterPublish: true
+- task: AzureRmWebAppDeployment@5
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'jantest'
+    appType: 'webApp'
+    WebAppName: 'example-jantest2'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    enableCustomDeployment: true
+    DeploymentType: 'webDeploy'
+
+# ---
+#  - task: UseDotNet@2
+#    displayName: 'Install .NET 10'
+#    inputs:
+#      version: 10.x
+#      performMultiLevelLookup: true
+#  - task: DotNetCoreCLI@2
+#    inputs:
+#      command: 'build'
+#      projects: '$(System.DefaultWorkingDirectory)/jantest.csproj'
+#      arguments: '--configuration $(BuildConfig) --output $(Build.ArtifactStagingDirectory)'
+#  - task: AzureWebApp@1
+#    displayName: 'Deploy to AzureWebApp'
+#    inputs:
+#      azureSubscription: 'jantest'
+#      appType: 'webApp'
+#      appName: 'example-jantest2'
+#      package: '$(Build.ArtifactStagingDirectory)'
+# ---
