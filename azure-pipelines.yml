@@ -8,15 +8,16 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
+    projects: '$(System.DefaultWorkingDirectory)/jantest.csproj'
     publishWebProjects: true
-    arguments: '--configuration $(buildConfiguration)'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: true
 - task: AzureWebApp@1
   inputs:
     azureSubscription: 'jantest'
     appType: 'webApp'
     appName: 'example-jantest2'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
     deploymentMethod: 'auto'
 
 # ---
