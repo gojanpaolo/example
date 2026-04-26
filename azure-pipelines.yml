@@ -18,5 +18,5 @@ steps:
     inputs:
       azureSubscription: 'jantest'
       appType: 'webApp'
-      appName: 'example'
+      appName: 'example-jantest2'
       package: '$(Build.ArtifactStagingDirectory)'

@@ -8,7 +8,7 @@ logger.LogWarning("jantest log Application Starting Up");
 app.MapGet("/foo", (string x) =>
 {
     logger.LogWarning($"Hello world jantest log {x}");
-    return $"Hello World3: {x}";
+    return $"Hello World: {x}";
 });
 
 app.UseDefaultFiles();
