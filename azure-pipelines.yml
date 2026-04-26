@@ -1,7 +1,7 @@
 trigger:
 - main
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 variables:
   buildConfiguration: 'Release'
 steps:
@@ -27,6 +27,9 @@ steps:
     DeploymentType: 'webDeploy'
 
 # ---
+#pool:
+#  vmImage: ubuntu-latest
+#steps:
 #  - task: UseDotNet@2
 #    displayName: 'Install .NET 10'
 #    inputs:
