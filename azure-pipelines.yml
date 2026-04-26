@@ -1,0 +1,22 @@
+trigger:
+- main
+pool:
+  vmImage: ubuntu-latest
+steps:
+  - task: UseDotNet@2
+    displayName: 'Install .NET 10'
+    inputs:
+      version: 10.x
+      performMultiLevelLookup: true
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'build'
+      projects: '$(System.DefaultWorkingDirectory)/jantest.csproj'
+      arguments: '--configuration $(BuildConfig) --output $(Build.ArtifactStagingDirectory)'
+  - task: AzureWebApp@1
+    displayName: 'Deploy to AzureWebApp'
+    inputs:
+      azureSubscription: 'jantest'
+      appType: 'webApp'
+      appName: 'example'
+      package: '$(Build.ArtifactStagingDirectory)'
